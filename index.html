@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Merco • Gestão</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="shortcut icon" href="assets/favicon.svg" type="image/x-icon">
+</head>
+
+<body class="light-theme">
+  <header class="top-hero">
+    <div class="header-left">
+      <div class="brand-block">
+        <img src="assets/logo.svg" alt="Merco" class="brand-logo">
+      </div>
+      <div class="hero-search">
+        <span class="search-icon" aria-hidden="true"></span>
+        <input type="search" placeholder="Busque contratos, clientes e projetos" aria-label="Buscar">
+      </div>
+    </div>
+
+    <div class="hero-actions">
+      <div class="user-info">
+        <div class="user-name">YGOR</div>
+        <div class="user-mail">ygor_marangoni@ufu.br</div>
+      </div>
+      <div class="avatar">🥸</div>
+      <button class="icon-btn" aria-label="Notificações">
+        <img src="assets/icons/sino.svg" alt="">
+      </button>
+      <button class="icon-btn search-trigger" aria-label="Buscar">
+        <img src="assets/icons/lupa.svg" alt="">
+      </button>
+      <button class="icon-btn" aria-label="Mais">
+        <img src="assets/icons/more-icon.svg" alt="">
+      </button>
+    </div>
+  </header>
+
+  <main class="shell">
+    <nav class="nav-grid">
+      <button class="nav-card active" data-section="dashboard">
+        <span class="nav-emoji">🏠</span>
+        <span class="nav-label">Dashboard</span>
+      </button>
+      <button class="nav-card" data-section="clientes">
+        <span class="nav-emoji">🙎</span>
+        <span class="nav-label">Clientes</span>
+      </button>
+      <button class="nav-card" data-section="projetos">
+        <span class="nav-emoji">💻</span>
+        <span class="nav-label">Projetos</span>
+      </button>
+      <button class="nav-card" data-section="tarefas">
+        <span class="nav-emoji">📝</span>
+        <span class="nav-label">Tarefas</span>
+      </button>
+      <button class="nav-card" data-section="propostas">
+        <span class="nav-emoji">🤝</span>
+        <span class="nav-label">Propostas</span>
+      </button>
+      <button class="nav-card" data-section="contratos">
+        <span class="nav-emoji">📄</span>
+        <span class="nav-label">Contratos</span>
+      </button>
+      <button class="nav-card" data-section="cobrancas">
+        <span class="nav-emoji">💵</span>
+        <span class="nav-label">Cobranças</span>
+      </button>
+      <button class="nav-card" data-section="config">
+        <span class="nav-emoji">🎨</span>
+        <span class="nav-label">Tema</span>
+      </button>
+    </nav>
+
+    <section id="dashboard" class="section active">
+      <div class="page-header">
+        <div>
+          <p class="eyebrow">Visão geral</p>
+          <h1>Dashboard</h1>
+          <p class="muted">Resumo dos indicadores chave da Merco.</p>
+        </div>
+      </div>
+
+      <div class="summary-grid">
+        <div class="card summary">
+          <p>Total de clientes</p><strong id="summary-clientes">0</strong>
+        </div>
+        <div class="card summary">
+          <p>Projetos ativos</p><strong id="summary-projetos">0</strong>
+        </div>
+        <div class="card summary">
+          <p>Tarefas pendentes</p><strong id="summary-tarefas">0</strong>
+        </div>
+        <div class="card summary">
+          <p>Propostas em aberto</p><strong id="summary-propostas">0</strong>
+        </div>
+        <div class="card summary">
+          <p>Cobranças pendentes</p><strong id="summary-cobrancas">0</strong>
+        </div>
+      </div>
+
+      <div class="recent-grid">
+        <div class="card">
+          <div class="card-title-row">
+            <h2>Projetos recentes</h2>
+            <span class="tag">3 últimos</span>
+          </div>
+          <div id="recent-projetos" class="stack-list"></div>
+        </div>
+        <div class="card">
+          <div class="card-title-row">
+            <h2>Tarefas recentes</h2>
+            <span class="tag">3 últimas</span>
+          </div>
+          <div id="recent-tarefas" class="stack-list"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="clientes" class="section">
+      <div class="page-header">
+        <div>
+          <p class="eyebrow">Clientes</p>
+          <h1>Base de clientes</h1>
+          <p class="muted"><span id="clientes-total">0</span> clientes cadastrados.</p>
+        </div>
+        <div class="page-actions clients-actions">
+          <input type="search" id="cliente-busca" placeholder="Buscar cliente" aria-label="Buscar cliente">
+          <div class="clients-action-buttons">
+            <button class="icon-btn toggle-privacy" aria-pressed="false" title="Ocultar dados">👁️</button>
+            <button class="btn btn-success pill open-client-modal">Adicionar novo Cliente + </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card table-card">
+        <div class="table-row head">
+          <div>Nome</div>
+          <div>Tipo</div>
+          <div>E-mail</div>
+          <div>Telefone</div>
+          <div>CPF/CNPJ</div>
+          <div>Ações</div>
+        </div>
+        <div id="clientes-lista" class="table-body"></div>
+      </div>
+
+      <div class="modal client-modal hidden" role="dialog" aria-modal="true" aria-label="Novo cliente">
+        <div class="modal-backdrop"></div>
+        <div class="modal-body">
+          <div class="modal-header">
+            <div>
+              <h3>Novo cliente</h3>
+              <p class="muted">Insira os dados para cadastrar.</p>
+            </div>
+            <button class="icon-btn close-client-modal modal-close" aria-label="Fechar">✕</button>
+          </div>
+          <form id="cliente-form" class="form-grid">
+            <input type="hidden" id="cliente-id">
+            <label style="display: inline-block;">Nome <span class="required-star">*</span><input required id="cliente-nome" placeholder="Nome completo"></label>
+            <label style="display: inline-block;">Tipo <span class="required-star">*</span><select id="cliente-tipo">
+                <option>Pessoa Física</option>
+                <option>Empresa</option>
+              </select></label>
+            <label style="display: inline-block;">E-mail <span class="required-star">*</span><input required type="email" id="cliente-email" placeholder="contato@exemplo.com"></label>
+            <label style="display: inline-block;">Telefone <span class="required-star">*</span><input id="cliente-telefone" placeholder="(11) 99999-9999"></label>
+            <label style="display: inline-block;">CPF/CNPJ <span class="required-star">*</span><input id="cliente-doc" placeholder="000.000.000-00"></label>
+            <div class="modal-actions">
+              <button type="button" class="btn btn-secondary close-client-modal">Cancelar</button>
+              <button type="submit" class="btn btn-success">Salvar cliente</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <div class="modal confirm-delete-modal hidden" role="dialog" aria-modal="true" aria-label="Confirmar exclusão de cliente">
+        <div class="modal-backdrop"></div>
+        <div class="modal-body">
+          <div class="modal-header">
+            <div>
+              <div class="large">⚠️</div>
+              <h3>Excluir cliente</h3>
+              <p class="muted">Tem certeza que deseja excluir <strong id="delete-client-name">este cliente</strong>?</p>
+            </div>
+            <button class="icon-btn close-delete-modal" aria-label="Fechar">✕</button>
+          </div>
+          <div class="modal-actions">
+            <button type="button" class="btn btn-secondary close-delete-modal">Cancelar</button>
+            <button type="button" class="btn btn-danger confirm-delete-client">Excluir</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="projetos" class="section">
+      <div class="page-header">
+        <div>
+          <p class="eyebrow">Projetos</p>
+          <h1>Painel de projetos</h1>
+          <p class="muted">Organize por status ou visualize em quadros.</p>
+        </div>
+        <div class=" clients-actions page-actions ">
+          <div class="segmented view-toggle">
+            <button data-view="board" class="btn btn-secondary">Quadros</button>
+            <button data-view="list" class="btn btn-secondary">Lista</button>
+          </div>
+          <button class="icon-btn toggle-project-privacy" aria-pressed="false" title="Ocultar/mostrar dados de clientes e telefones">👁️</button>
+          <button class="btn btn-success pill open-project-modal">Adicionar novo Projeto + </button>
+        </div>
+      </div>
+
+      <div class="card filters-row">
+        <label class="filter-field">Urgência
+          <select id="projeto-filtro-status">
+            <option value="">Todas urgências</option>
+            <option>Baixa</option>
+            <option>Média</option>
+            <option>Alta</option>
+            <option>Crítica</option>
+          </select>
+        </label>
+        <label class="filter-field">Cliente
+          <select id="projeto-filtro-cliente">
+            <option value="">Todos clientes</option>
+          </select>
+        </label>
+      </div>
+
+      <div id="projetos-list-view">
+        <div class="card table-card">
+          <div class="table-row head">
+            <div>Projeto</div>
+            <div>Cliente</div>
+            <div>Telefone</div>
+            <div>Prazo</div>
+            <div>Status</div>
+            <div>Urgência</div>
+            <div>Ações</div>
+          </div>
+          <div id="projetos-lista" class="table-body"></div>
+        </div>
+      </div>
+
+      <div id="projetos-board-view" class="card board hidden">
+        <div class="board-columns" id="projetos-board"></div>
+      </div>
+
+      <div class="modal project-modal hidden" role="dialog" aria-modal="true" aria-label="Novo projeto">
+        <div class="modal-backdrop"></div>
+        <div class="modal-body wide">
+          <div class="modal-header">
+            <div>
+              <h3 id="projeto-modal-title">Novo projeto</h3>
+              <p class="muted">Cadastre ou edite os dados do projeto.</p>
+            </div>
+            <button class="icon-btn close-project-modal modal-close" aria-label="Fechar">✕</button>
+          </div>
+          <form id="projeto-form-modal" class="form-grid">
+            <input type="hidden" id="projeto-id">
+            <input type="hidden" id="projeto-capa-base64">
+
+            <div class="project-cover">
+              <div class="project-cover-left">
+                <div id="projeto-capa-preview" class="project-cover-preview" aria-label="Selecionar capa" role="button" tabindex="0">
+                  <span class="cover-placeholder">Adicione uma capa elegante</span>
+                </div>
+              </div>
+              <div class="project-cover-actions">
+                <label class="btn btn-secondary btn-sm upload-cover">
+                  📷 Trocar capa
+                  <input type="file" id="projeto-capa" accept="image/*" hidden>
+                </label>
+                <button type="button" class="btn btn-link clear-cover">Remover</button>
+              </div>
+            </div>
+
+            <div class="two-cols">
+              <label>
+                <span class="label-title">Nome do projeto<span class="required-star">*</span></span>
+                <input required id="projeto-nome" placeholder="Ex.: Site institucional Merco">
+              </label>
+              <label>
+                <span class="label-title">Cliente<span class="required-star">*</span></span>
+                <select id="projeto-cliente" required></select>
+              </label>
+            </div>
+
+            <div class="two-cols">
+              <label>
+                <span class="label-title">Urgência<span class="required-star">*</span></span>
+                <select id="projeto-urgencia" required>
+                  <option>Baixa</option>
+                  <option>Média</option>
+                  <option>Alta</option>
+                  <option>Crítica</option>
+                </select>
+              </label>
+              <label>
+                <span class="label-title">Etapa / Status<span class="required-star">*</span></span>
+                <select id="projeto-status" required>
+                  <option>Lead</option>
+                  <option>Em desenvolvimento</option>
+                  <option>Aguardando cliente</option>
+                  <option>Concluído</option>
+                </select>
+              </label>
+            </div>
+
+            <div class="two-cols">
+              <label>
+                <span class="label-title">Valor<span class="required-star">*</span></span>
+                <input type="number" min="0" step="0.01" id="projeto-valor" placeholder="0,00" required>
+              </label>
+              <label>
+                <span class="label-title">Entrega<span class="required-star">*</span></span>
+                <input type="date" id="projeto-entrega" required>
+              </label>
+            </div>
+
+            <div class="tech-chips-block full-column">
+              <div class="tech-label">
+                Tecnologias <span class="muted">Selecione várias</span>
+              </div>
+              <div class="tech-chips" id="projeto-techs">
+                <button type="button" class="chip" data-tech="HTML">HTML</button>
+                <button type="button" class="chip" data-tech="CSS">CSS</button>
+                <button type="button" class="chip" data-tech="JavaScript">JavaScript</button>
+                <button type="button" class="chip" data-tech="React">React</button>
+                <button type="button" class="chip" data-tech="Node">NodeJS</button>
+                <button type="button" class="chip" data-tech="Figma">Figma</button>
+                <button type="button" class="chip" data-tech="Next.js">Next.js</button>
+                <button type="button" class="chip" data-tech="TypeScript">TypeScript</button>
+                <button type="button" class="chip" data-tech="Firebase">Firebase</button>
+                <button type="button" class="chip" data-tech="AWS">AWS</button>
+                <button type="button" class="chip" data-tech="PostgreSQL">PostgreSQL</button>
+                <button type="button" class="chip" data-tech="ChatGPT">ChatGPT</button>
+              </div>
+            </div>
+
+            <input type="hidden" id="projeto-techs-value">
+
+            <label class="full">Descrição do projeto
+              <textarea id="projeto-descricao" rows="3" placeholder="Contexto, objetivos e entregáveis..."></textarea>
+            </label>
+
+            <div class="modal-actions">
+              <button type="button" class="btn btn-secondary close-project-modal">Cancelar</button>
+              <button type="submit" class="btn btn-success">Salvar projeto</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <div class="modal confirm-delete-project-modal hidden" role="dialog" aria-modal="true" aria-label="Confirmar exclusão de projeto">
+        <div class="modal-backdrop"></div>
+        <div class="modal-body">
+          <div class="modal-header">
+            <div>
+              <div class="large">⚠️</div>
+              <h3>Excluir projeto</h3>
+              <p class="muted">Tem certeza que deseja excluir <strong id="delete-project-name">este projeto</strong>?</p>
+            </div>
+            <button class="icon-btn modal-close close-delete-project-modal" aria-label="Fechar">✕</button>
+          </div>
+          <div class="modal-actions">
+            <button type="button" class="btn btn-secondary close-delete-project-modal">Cancelar</button>
+            <button type="button" class="btn btn-danger confirm-delete-project">Excluir</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="tarefas" class="section">
+      <div class="page-header">
+        <div>
+          <p class="eyebrow">Tarefas</p>
+          <h1>Fluxo de tarefas</h1>
+          <p class="muted">Priorize entregas por projeto.</p>
+        </div>
+        <div class="page-actions">
+          <button class="btn btn-success pill">+ Tarefa</button>
+        </div>
+      </div>
+
+      <div class="card filters-row">
+        <select id="tarefa-filtro-status">
+          <option value="">Todas</option>
+          <option>A fazer</option>
+          <option>Em progresso</option>
+          <option>Concluída</option>
+        </select>
+        <select id="tarefa-filtro-projeto">
+          <option value="">Todos projetos</option>
+        </select>
+      </div>
+
+      <div class="stack-list" id="tarefas-lista"></div>
+
+      <details class="card form-card">
+        <summary>Nova tarefa</summary>
+        <form id="tarefa-form" class="form-grid">
+          <input type="hidden" id="tarefa-id">
+          <label>Título<input required id="tarefa-titulo" placeholder="Descrever tarefa"></label>
+          <label>Projeto
+            <div class="project-select-wrap">
+              <select id="tarefa-projeto"></select>
+              <span class="project-color-dot" id="tarefa-projeto-color" aria-hidden="true"></span>
+            </div>
+          </label>
+          <label>Status<select id="tarefa-status">
+              <option>A fazer</option>
+              <option>Em progresso</option>
+              <option>Concluída</option>
+            </select></label>
+          <label>Prioridade<select id="tarefa-prioridade">
+              <option>Baixa</option>
+              <option>Média</option>
+              <option>Alta</option>
+            </select></label>
+          <label>Data limite<input type="date" id="tarefa-limite"></label>
+          <button type="submit" class="btn btn-success">Salvar tarefa</button>
+        </form>
+      </details>
+    </section>
+
+    <section id="propostas" class="section">
+      <div class="page-header">
+        <div>
+          <p class="eyebrow">Propostas</p>
+          <h1>Negociações</h1>
+          <p class="muted">Acompanhe aprovações e recusas.</p>
+        </div>
+        <div class="page-actions">
+          <button class="btn btn-success pill">+ Proposta</button>
+        </div>
+      </div>
+      <div id="propostas-lista" class="stack-list"></div>
+      <details class="card form-card">
+        <summary>Nova proposta</summary>
+        <form id="proposta-form" class="form-grid">
+          <input type="hidden" id="proposta-id">
+          <label>Título<input required id="proposta-titulo" placeholder="Proposta para..."></label>
+          <label>Cliente<select id="proposta-cliente"></select></label>
+          <label>Valor<input type="number" min="0" step="0.01" id="proposta-valor" placeholder="0,00"></label>
+          <label>Status<select id="proposta-status">
+              <option>Em aberto</option>
+              <option>Aprovada</option>
+              <option>Recusada</option>
+            </select></label>
+          <button type="submit" class="btn btn-success">Salvar proposta</button>
+        </form>
+      </details>
+    </section>
+
+    <section id="contratos" class="section">
+      <div class="page-header">
+        <div>
+          <p class="eyebrow">Contratos</p>
+          <h1>Acordos</h1>
+          <p class="muted">Controle vigência e valores.</p>
+        </div>
+        <div class="page-actions">
+          <button class="btn btn-success pill">+ Contrato</button>
+        </div>
+      </div>
+      <div id="contratos-lista" class="stack-list"></div>
+      <details class="card form-card">
+        <summary>Novo contrato</summary>
+        <form id="contrato-form" class="form-grid">
+          <input type="hidden" id="contrato-id">
+          <label>Título<input required id="contrato-titulo" placeholder="Contrato projeto X"></label>
+          <label>Cliente<select id="contrato-cliente"></select></label>
+          <label>Valor<input type="number" min="0" step="0.01" id="contrato-valor" placeholder="0,00"></label>
+          <label>Vigência<input type="date" id="contrato-vigencia"></label>
+          <button type="submit" class="btn btn-success">Salvar contrato</button>
+        </form>
+      </details>
+    </section>
+
+    <section id="cobrancas" class="section">
+      <div class="page-header">
+        <div>
+          <p class="eyebrow">Cobranças</p>
+          <h1>Pagamentos</h1>
+          <p class="muted">Monitore pendências e recebimentos.</p>
+        </div>
+        <div class="page-actions">
+          <button class="btn btn-success pill">+ Cobrança</button>
+        </div>
+      </div>
+      <div id="cobrancas-lista" class="stack-list"></div>
+      <details class="card form-card">
+        <summary>Nova cobrança</summary>
+        <form id="cobranca-form" class="form-grid">
+          <input type="hidden" id="cobranca-id">
+          <label>Descrição<input required id="cobranca-descricao" placeholder="Parcela do contrato"></label>
+          <label>Cliente<select id="cobranca-cliente"></select></label>
+          <label>Valor<input type="number" min="0" step="0.01" id="cobranca-valor" placeholder="0,00"></label>
+          <label>Status<select id="cobranca-status">
+              <option>Pendente</option>
+              <option>Pago</option>
+            </select></label>
+          <button type="submit" class="btn btn-success">Salvar cobrança</button>
+        </form>
+      </details>
+    </section>
+
+    <section id="config" class="section">
+      <div class="page-header">
+        <div>
+          <p class="eyebrow">Preferências</p>
+          <h1>Configurações</h1>
+          <p class="muted">Tema e cor principal do dashboard.</p>
+        </div>
+      </div>
+      <div class="card settings-card">
+        <div class="setting-row">
+          <div>
+            <h2>Modo de tema</h2>
+            <p>Alterne entre claro e escuro.</p>
+          </div>
+          <div class="segmented">
+            <button data-theme="light" class="btn btn-secondary">Claro</button>
+            <button data-theme="dark" class="btn btn-secondary">Escuro</button>
+          </div>
+        </div>
+        <div class="setting-row">
+          <div>
+            <h2>Cor de destaque</h2>
+            <p>Escolha a cor principal.</p>
+          </div>
+          <input type="color" id="accent-picker-config" value="#d85747">
+        </div>
+        <div class="setting-row">
+          <div>
+            <h2>Trocar avatar</h2>
+            <p>Escolha um avatar para o topo.</p>
+          </div>
+          <div class="avatar-grid">
+            <button type="button" class="avatar-option" data-avatar="🤖">🤖</button>
+            <button type="button" class="avatar-option" data-avatar="🥸">🥸</button>
+            <button type="button" class="avatar-option" data-avatar="🐼">🐼</button>
+            <button type="button" class="avatar-option" data-avatar="🐵">🐵</button>
+            <button type="button" class="avatar-option" data-avatar="🤓">🤓</button>
+            <button type="button" class="avatar-option" data-avatar="😎">😎</button>
+            <button type="button" class="avatar-option" data-avatar="😴">😴</button>
+            <button type="button" class="avatar-option" data-avatar="💩">💩</button>
+            <button type="button" class="avatar-option" data-avatar="🐧">🐧</button>
+            <button type="button" class="avatar-option" data-avatar="🦊">🦊</button>
+            <button type="button" class="avatar-option" data-avatar="🐨">🐨</button>
+            <button type="button" class="avatar-option" data-avatar="🙋‍♂️">🙋‍♂️</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div class="search-modal hidden" role="dialog" aria-modal="true" aria-label="Buscar">
+    <div class="search-modal-backdrop"></div>
+    <div class="search-modal-body">
+      <div class="search-modal-header">
+        <span class="search-icon" aria-hidden="true"></span>
+        <input type="search" id="modal-search-input" placeholder="Busque contratos, clientes e projetos" aria-label="Buscar">
+        <button class="icon-btn close-modal" aria-label="Fechar">✕</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast-stack" id="toast-stack" aria-live="polite" aria-atomic="true"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
+  <script src="script.js"></script>
+</body>
+
+</html>
